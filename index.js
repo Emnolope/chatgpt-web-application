@@ -89,12 +89,13 @@ app.post('/get-prompt-result', async (req, res) => {
             return res.send(result.data.choices[0]?.message?.content);
         }
         if (model === 'gpt-4') {
-            const result = await openai.createCompletion({
+            const result = await openai.createChatCompletion({
                 model: "gpt-4",
-                prompt,
-                max_tokens: 4000
-            });
-            return res.send(result.data.choices[0].text);
+                messages: [
+                    { role: "user", content: prompt }
+                ]
+            })
+            return res.send(result.data.choices[0]?.message?.content);
         }
         if (model === 'gpt-4-0613') {
             const result = await openai.createCompletion({
