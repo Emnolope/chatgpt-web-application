@@ -88,6 +88,38 @@ app.post('/get-prompt-result', async (req, res) => {
             })
             return res.send(result.data.choices[0]?.message?.content);
         }
+        if (model === 'gpt-4') {
+            const result = await openai.createCompletion({
+                model: "gpt-4",
+                prompt,
+                max_tokens: 4000
+            });
+            return res.send(result.data.choices[0].text);
+        }
+        if (model === 'gpt-4-0613') {
+            const result = await openai.createCompletion({
+                model: "gpt-4-0613",
+                prompt,
+                max_tokens: 4000
+            });
+            return res.send(result.data.choices[0].text);
+        }
+        if (model === 'gpt-4-32k') {
+            const result = await openai.createCompletion({
+                model: "gpt-4-32k",
+                prompt,
+                max_tokens: 4000
+            });
+            return res.send(result.data.choices[0].text);
+        }
+        if (model === 'gpt-4-32k-0613') {
+            const result = await openai.createCompletion({
+                model: "gpt-4-32k-0613",
+                prompt,
+                max_tokens: 4000
+            });
+            return res.send(result.data.choices[0].text);
+        }
         const completion = await openai.createCompletion({
             model: 'text-davinci-003', // model name
             prompt: `Please reply below question in markdown format.\n ${prompt}`, // input prompt
@@ -103,5 +135,5 @@ app.post('/get-prompt-result', async (req, res) => {
     }
 });
 
-const server = createServer(app);
-module.exports = server;
+const port = process.env.PORT || 3001;
+app.listen(port, () => console.log(`Listening on port ${port}`));
